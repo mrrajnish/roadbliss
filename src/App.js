@@ -5,122 +5,113 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const API = "https://roadbliss.onrender.com"; // ✅ your backend
+
+  // ✅ SIGNUP
   const handleSignup = async () => {
-    const res = await fetch("https://roadbliss.vercel.app/signup", {
+    const res = await fetch(`${API}/signup`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email, password }),
     });
+
     const data = await res.text();
     alert(data);
   };
 
+  // ✅ LOGIN
   const handleLogin = async () => {
-    const res = await fetch("https://roadbliss.vercel.app/login", {
+    const res = await fetch(`${API}/login`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email, password }),
     });
+
     const data = await res.text();
     alert(data);
   };
 
   return (
-    <div style={{
-      background: dark ? "#0f0f0f" : "#f5f5f5",
-      color: dark ? "white" : "black",
-      minHeight: "100vh",
-      fontFamily: "sans-serif"
-    }}>
-
+    <div
+      style={{
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
+        color: dark ? "white" : "black",
+        minHeight: "100vh",
+        fontFamily: "Arial",
+      }}
+    >
       {/* Navbar */}
-      <div style={{
-        display:"flex",
-        justifyContent:"space-between",
-        padding:"20px"
-      }}>
-        <h1>🚀 RoadBliss</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "20px",
+        }}
+      >
+        <h1>RoadBliss 🚗</h1>
 
-        {/* Toggle Icon */}
-        <span 
-          style={{cursor:"pointer", fontSize:"20px"}}
-          onClick={() => setDark(!dark)}
-        >
-          {dark ? "☀️" : "🌙"}
-        </span>
+        <button onClick={() => setDark(!dark)}>
+          {dark ? "🌙" : "☀️"}
+        </button>
       </div>
 
       {/* Hero */}
-      <section style={{padding:"60px 20px"}}>
-        <h2 style={{fontSize:"40px"}}>Discover Hidden Village Roads</h2>
-        <p style={{opacity:0.7}}>
-          Explore peaceful and unseen places in Saran
-        </p>
-      </section>
+      <div style={{ textAlign: "center", padding: "60px 20px" }}>
+        <h2 style={{ fontSize: "32px" }}>
+          Discover Hidden Village Roads
+        </h2>
+        <p>Explore secret places in Saran district</p>
+      </div>
 
-      {/* Login (RIGHT SIDE FLOAT) */}
-      <div style={{
-        position:"absolute",
-        top:"100px",
-        right:"30px",
-        width:"250px"
-      }}>
-        <h4>Login</h4>
+      {/* Auth Section */}
+      <div style={{ padding: "20px", maxWidth: "300px", margin: "auto" }}>
+        <h3>Login / Signup</h3>
 
-        <input 
+        <input
           placeholder="Email"
           value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-          style={{width:"100%",marginBottom:"10px",padding:"8px"}}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{ width: "100%", margin: "10px 0", padding: "10px" }}
         />
 
-        <input 
+        <input
           placeholder="Password"
           type="password"
           value={password}
-          onChange={(e)=>setPassword(e.target.value)}
-          style={{width:"100%",marginBottom:"10px",padding:"8px"}}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ width: "100%", margin: "10px 0", padding: "10px" }}
         />
 
-        <button onClick={handleLogin}>Login</button>
-        <button onClick={handleSignup} style={{marginLeft:"10px"}}>
+        <button
+          onClick={handleLogin}
+          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+        >
+          Login
+        </button>
+
+        <button
+          onClick={handleSignup}
+          style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+        >
           Signup
         </button>
       </div>
 
-      {/* Main Sections */}
-      <div style={{padding:"20px", maxWidth:"700px"}}>
+      {/* Map */}
+      <div style={{ padding: "20px" }}>
+        <h3>Map (Saran District)</h3>
 
-        {/* Route */}
-        <section style={{marginBottom:"40px"}}>
-          <h3>Find a Route</h3>
-          <input placeholder="Start" style={{width:"100%",margin:"10px 0",padding:"10px"}} />
-          <input placeholder="Destination" style={{width:"100%",margin:"10px 0",padding:"10px"}} />
-          <button>Explore Route</button>
-        </section>
-
-        {/* Hidden Place */}
-        <section style={{marginBottom:"40px"}}>
-          <h3>Add Hidden Place</h3>
-          <input placeholder="Place Name" style={{width:"100%",margin:"10px 0",padding:"10px"}} />
-          <textarea placeholder="Description" style={{width:"100%",margin:"10px 0",padding:"10px"}} />
-          <button>Add Place</button>
-        </section>
-
-      </div>
-
-      {/* Map (FULL WIDTH + LONG) */}
-      <section style={{marginTop:"50px"}}>
-        <h3 style={{padding:"20px"}}>Explore Map</h3>
         <iframe
           title="map"
           width="100%"
-          height="600"
-          style={{border:"none"}}
+          height="400"
           src="https://www.google.com/maps?q=Saran,Bihar&output=embed"
         ></iframe>
-      </section>
-
+      </div>
     </div>
   );
 }
