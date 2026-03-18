@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect MongoDB (fixed)
-mongoose.connect("mongodb://127.0.0.1:27017/roadbliss");
+mongoose.connect("mongodb+srv://roadbliss:Roadbliss@3820@cluster.ipc4vm2.mongodb.net/roadbliss");
 
 // Schema
 const User = mongoose.model("User", {
