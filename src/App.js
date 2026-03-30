@@ -1,136 +1,154 @@
 import { useState } from "react";
 
 export default function App() {
-  const [dark, setDark] = useState(true);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [showPlaces, setShowPlaces] = useState(false);
+
+  // Dummy hidden places
+  const hiddenPlaces = [
+    {
+      name: "Peaceful River Spot",
+      desc: "Calm river side perfect for relaxing",
+    },
+    {
+      name: "Green Village Road",
+      desc: "Beautiful road with trees and sunset view",
+    },
+    {
+      name: "Photography Spot",
+      desc: "Best place for photos and reels",
+    },
+  ];
 
   return (
-    <div
-      style={{
-        background: dark
-          ? "linear-gradient(135deg, #0f172a, #020617)"
-          : "#f1f5f9",
-        color: dark ? "white" : "black",
-        minHeight: "100vh",
-        fontFamily: "Poppins, sans-serif",
-      }}
-    >
-      {/* NAVBAR */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "20px 40px",
-        }}
-      >
-        <h1 style={{ fontSize: "28px" }}>🚗 RoadBliss</h1>
-
-        <button
-          onClick={() => setDark(!dark)}
+    <div style={{ fontFamily: "Arial", color: "white" }}>
+      
+      {/* 🎥 BACKGROUND VIDEO */}
+      <div style={{
+        position: "relative",
+        height: "100vh",
+        overflow: "hidden"
+      }}>
+        
+        <video
+          autoPlay
+          loop
+          muted
           style={{
-            border: "none",
-            background: "transparent",
-            fontSize: "20px",
-            cursor: "pointer",
-          }}
-        >
-          {dark ? "🌙" : "☀️"}
-        </button>
-      </div>
-
-      {/* HERO SECTION */}
-      <div style={{ textAlign: "center", marginTop: "80px" }}>
-        <h2 style={{ fontSize: "36px", fontWeight: "bold" }}>
-          Discover Hidden Village Roads
-        </h2>
-        <p style={{ opacity: 0.7 }}>
-          Explore secret places in Saran district
-        </p>
-      </div>
-
-      {/* LOGIN CARD */}
-      <div
-        style={{
-          maxWidth: "350px",
-          margin: "60px auto",
-          padding: "30px",
-          borderRadius: "20px",
-          backdropFilter: "blur(10px)",
-          background: dark
-            ? "rgba(255,255,255,0.05)"
-            : "rgba(0,0,0,0.05)",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h3 style={{ textAlign: "center", marginBottom: "20px" }}>
-          Login / Signup
-        </h3>
-
-        <input
-          placeholder="Email"
-          style={{
+            position: "absolute",
             width: "100%",
-            padding: "12px",
-            marginBottom: "15px",
-            borderRadius: "10px",
-            border: "none",
+            height: "100%",
+            objectFit: "cover"
           }}
+          src="https://www.w3schools.com/howto/rain.mp4"
         />
 
-        <input
-          placeholder="Password"
-          type="password"
-          style={{
-            width: "100%",
-            padding: "12px",
-            marginBottom: "20px",
-            borderRadius: "10px",
-            border: "none",
-          }}
-        />
+        {/* Overlay */}
+        <div style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          background: "rgba(0,0,0,0.6)"
+        }} />
 
-        <button
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "none",
-            background: "#3b82f6",
-            color: "white",
-            marginBottom: "10px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
+        {/* HERO CONTENT */}
+        <div style={{
+          position: "relative",
+          zIndex: 2,
+          textAlign: "center",
+          top: "30%"
+        }}>
+          <h1 style={{ fontSize: "40px" }}>🚗 RoadBliss</h1>
+          <h2>Discover Hidden Village Roads</h2>
 
-        <button
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "none",
-            background: "#10b981",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Signup
-        </button>
+          {/* FROM TO */}
+          <div style={{ marginTop: "20px" }}>
+            <input
+              placeholder="From"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              style={{ padding: "10px", marginRight: "10px" }}
+            />
+
+            <input
+              placeholder="To"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              style={{ padding: "10px", marginRight: "10px" }}
+            />
+
+            <button
+              onClick={() => setShowPlaces(true)}
+              style={{
+                padding: "10px 20px",
+                background: "#3b82f6",
+                color: "white",
+                border: "none",
+                cursor: "pointer"
+              }}
+            >
+              Find Route
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* MAP */}
-      <div style={{ padding: "20px" }}>
-        <h3 style={{ textAlign: "center" }}>Saran Map</h3>
+      {/* 🗺️ MAP SECTION */}
+      <div style={{ padding: "20px", background: "#0f172a" }}>
+        <h2 style={{ textAlign: "center" }}>Route Map</h2>
 
         <iframe
           title="map"
           width="100%"
-          height="450"
-          style={{ borderRadius: "15px" }}
-          src="https://www.google.com/maps?q=Saran,Bihar&output=embed"
+          height="500"
+          style={{ borderRadius: "10px", border: "none" }}
+          src={`https://www.google.com/maps?q=${from}+to+${to}&output=embed`}
         ></iframe>
       </div>
+
+      {/* 📍 HIDDEN PLACES */}
+      {showPlaces && (
+        <div style={{ padding: "20px", background: "#020617" }}>
+          <h2 style={{ textAlign: "center" }}>
+            Hidden Places on Your Route
+          </h2>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "20px",
+            marginTop: "20px"
+          }}>
+            {hiddenPlaces.map((place, index) => (
+              <div
+                key={index}
+                style={{
+                  padding: "20px",
+                  borderRadius: "15px",
+                  background: "rgba(255,255,255,0.05)",
+                  backdropFilter: "blur(10px)"
+                }}
+              >
+                <h3>{place.name}</h3>
+                <p>{place.desc}</p>
+
+                <button style={{
+                  marginTop: "10px",
+                  padding: "8px",
+                  background: "#10b981",
+                  border: "none",
+                  color: "white",
+                  cursor: "pointer"
+                }}>
+                  View on Map
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
